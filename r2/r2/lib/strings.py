@@ -69,31 +69,31 @@ string_dict = dict(
 
     already_submitted = _("that link has already been submitted, but you can try to [submit it again](%s)."),
 
-    multiple_submitted = _("that link has been submitted to multiple subreddits. you can try to [submit it again](%s)."),
+    multiple_submitted = _("that link has been submitted to multiple communities. you can try to [submit it again](%s)."),
 
     user_deactivated = _("your account has been deactivated, but we won't judge you for it."),
 
     oauth_login_msg = _(
-        "Log in or sign up to connect your reddit account with %(app)s."),
+        "Log in or sign up to connect your rbeer.trade account with %(app)s."),
 
     legal = _("I understand and agree that registration on or use of this site constitutes agreement to its %(user_agreement)s and %(privacy_policy)s."),
 
-    friends = _('to view reddit with only submissions from your friends, use [reddit.com/r/friends](%s)'),
+    friends = _('to view rbeer.trade with only submissions from your friends, use [reddit.com/r/friends](%s)'),
 
-    sr_created = _('your subreddit has been created'),
+    sr_created = _('your community has been created'),
 
     more_info_link = _("visit [%(link)s](%(link)s) for more information"),
 
     sr_messages = dict(
-        empty =  _('you have not subscribed to any subreddits.'),
-        subscriber =  _('below are the subreddits you have subscribed to.'),
-        contributor =  _('below are the subreddits that you are an approved submitter on.'),
-        moderator = _('below are the subreddits that you have moderator access to.')
+        empty =  _('you have not subscribed to any communities.'),
+        subscriber =  _('below are the communities you have subscribed to.'),
+        contributor =  _('below are the communities that you are an approved submitter on.'),
+        moderator = _('below are the communities that you have moderator access to.')
         ),
 
-    sr_subscribe =  _('click the `subscribe` or `unsubscribe` buttons to choose which subreddits appear on your front page.'),
+    sr_subscribe =  _('click the `subscribe` or `unsubscribe` buttons to choose which communities appear on your front page.'),
 
-    searching_a_reddit = _('you\'re searching within the [%(reddit_name)s](%(reddit_link)s) subreddit. '+
+    searching_a_reddit = _('you\'re searching within the [%(reddit_name)s](%(reddit_link)s) communities. '+
                            'you can also search within [all subreddits](%(all_reddits_link)s)'),
 
     permalink_title = _("%(author)s comments on %(title)s"),
@@ -113,11 +113,11 @@ string_dict = dict(
     invalid_search_query = _("I couldn't understand your query, so I simplified it and searched for \"%(clean_query)s\" instead."),
     completely_invalid_search_query = _("I couldn't understand your search query. Please try again."),
     search_help = _("You may also want to check the [search help page](%(search_help)s) for more information."),
-    formatting_help_info = _('reddit uses a slightly-customized version of [Markdown](http://daringfireball.net/projects/markdown/syntax) for formatting. See below for some basics, or check [the commenting wiki page](/wiki/commenting) for more detailed help and solutions to common issues.'),
-    read_only_msg = _("Reddit is in \"emergency read-only mode\" right now. :( You won't be able to log in. We're sorry and are working frantically to fix the problem."),
+    formatting_help_info = _('rbeer.trade uses a slightly-customized version of [Markdown](http://daringfireball.net/projects/markdown/syntax) for formatting. See below for some basics, or check [the commenting wiki page](/wiki/commenting) for more detailed help and solutions to common issues.'),
+    read_only_msg = _("rbeer.trade is in \"emergency read-only mode\" right now. :( You won't be able to log in. We're sorry and are working frantically to fix the problem."),
     heavy_load_msg = _("this page is temporarily in read-only mode due to heavy traffic."),
-    in_perma_timeout_msg = _("Your account has been permanently [suspended](https://reddit.zendesk.com/hc/en-us/articles/205687686) from Reddit."),
-    in_temp_timeout_msg = _("Your account has been [suspended](https://reddit.zendesk.com/hc/en-us/articles/205687686) from Reddit for %(days)s."),
+    in_perma_timeout_msg = _("Your account has been permanently [suspended](https://reddit.zendesk.com/hc/en-us/articles/205687686) from rbeer.trade."),
+    in_temp_timeout_msg = _("Your account has been [suspended](https://reddit.zendesk.com/hc/en-us/articles/205687686) from rbeer.trade for %(days)s."),
     gold_benefits_msg = "reddit gold is our premium membership program. It grants you access to [extra features](https://www.reddit.com/gold/about) to improve your reddit experience. It also makes you really quite dapper. If you have questions about your gold, please visit /r/goldbenefits.",
     lounge_msg = "Grab a drink and join us in /r/lounge, the super-secret members-only community that may or may not exist.",
     postcard_msg = _("You sent us a postcard! (Or something similar.) When we run out of room on our refrigerator, we might one day auction off the stuff that people sent in. Is it okay if we include your thing?"),
@@ -159,7 +159,7 @@ apps below.
     traffic_help_email = _("Questions? Email self serve support: %(email)s"),
 
     traffic_subreddit_explanation = _("""
-Below are the traffic statistics for your subreddit. Each graph represents one of the following over the interval specified.
+Below are the traffic statistics for your community. Each graph represents one of the following over the interval specified.
 
 * **pageviews** are all hits to %(subreddit)s, including both listing pages and comment pages.
 * **uniques** are the total number of unique visitors (determined by a combination of their IP address and User Agent string) that generate the above pageviews. This is independent of whether or not they are signed in.
@@ -169,11 +169,11 @@ Note: there are a couple of places outside of your subreddit where someone can c
 """),
 
     subscribed_multi = _("multireddit of your subscriptions"),
-    mod_multi = _("multireddit of subreddits you moderate"),
+    mod_multi = _("multireddit of communities you moderate"),
 
-    r_all_description = _("/r/all displays content from all of reddit, including subreddits you aren't subscribed to. Some subreddits have chosen to exclude themselves from /r/all."),
-    r_all_minus_description = _("Displaying content from /r/all of reddit, except the following subreddits:"),
-    all_minus_gold_only = _('Filtering /r/all is a feature only available to [reddit gold](/gold/about) subscribers. Displaying unfiltered results from /r/all.'),
+    r_all_description = _("/r/all displays content from all of rbeer.trade, including communities you aren't subscribed to. Some communities have chosen to exclude themselves from /r/all."),
+    r_all_minus_description = _("Displaying content from /r/all of rbeer.trade, except the following communities:"),
+    all_minus_gold_only = _('Filtering /r/all is a feature only available to [rbeer.trade gold](/gold/about) subscribers. Displaying unfiltered results from /r/all.'),
 )
 
 class StringHandler(object):
