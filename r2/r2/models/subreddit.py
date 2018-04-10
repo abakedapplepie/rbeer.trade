@@ -366,7 +366,7 @@ class Subreddit(Thing, Printable, BaseSite):
     def _new(cls, name, title, author_id, ip, lang = g.lang, type = 'public',
              over_18 = False, **kw):
         if not cls.is_valid_name(name):
-            raise ValueError("bad subreddit name")
+            raise ValueError("bad community name")
         with g.make_lock("create_sr", 'create_sr_' + name.lower()):
             try:
                 sr = Subreddit._by_name(name)

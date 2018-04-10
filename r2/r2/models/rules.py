@@ -34,7 +34,7 @@ OLD_SITEWIDE_RULES = [
     _("vote manipulation"),
     _("personal information"),
     _("sexualizing minors"),
-    _("breaking reddit"),
+    _("breaking rbeer.trade"),
 ]
 
 SITEWIDE_RULES = [
