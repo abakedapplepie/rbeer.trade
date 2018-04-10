@@ -247,7 +247,12 @@ function toggle(elem, callback, cancelback) {
         return false;
     }
 
-    r.analytics.breadcrumbs.storeLastClick(elem)
+    /* r.analytics.breadcrumbs.storeLastClick(elem) */
+    try {
+        r.analytics.breadcrumbs.storeLastClick(elem)
+    } catch (e) {
+        console.log(e);
+    }
 
     var self = $(elem).parent().addBack().filter(".option");
     var sibling = self.removeClass("active")
