@@ -704,7 +704,7 @@ class Reddit(Templated):
                     and not (c.user_is_loggedin
                              and c.site.can_submit(c.user))):
                 if c.site.type == "archived":
-                    subtitle = _('this subreddit is archived '
+                    subtitle = _('this community is archived '
                                  'and no longer accepting submissions.')
                     ps.append(SideBox(title=_('Submissions disabled'),
                                       css_class="submit",
@@ -807,7 +807,7 @@ class Reddit(Templated):
                     c.user.can_create_subreddit):
                 subtitles = get_funny_translated_string("create_subreddit", 2)
                 data_attrs = {'event-action': 'createsubreddit'}
-                ps.append(SideBox(_('Create your own subreddit'),
+                ps.append(SideBox(_('Create your own community'),
                            '/subreddits/create', 'create',
                            subtitles=subtitles,
                            data_attrs=data_attrs,
@@ -1087,48 +1087,7 @@ class RedditFooter(CachedTemplate):
 
     def __init__(self):
         self.nav = [
-            NavMenu([
-                    NamedButton("blog", False, dest="/blog"),
-                    OffsiteButton("about", "https://about.reddit.com/"),
-                    NamedButton("source_code", False, dest="/code"),
-                    NamedButton("advertising", False),
-                    NamedButton("jobs", False),
-                ],
-                title = _("about"),
-                type = "flat_vert",
-                separator = ""),
 
-            NavMenu([
-                    NamedButton("rules", False),
-                    OffsiteButton(_("FAQ"), "https://reddit.zendesk.com"),
-                    NamedButton("wiki", False),
-                    NamedButton("reddiquette", False, dest="/wiki/reddiquette"),
-                    NamedButton("transparency", False, dest="/wiki/transparency"),
-                    NamedButton("contact", False),
-                ],
-                title = _("help"),
-                type = "flat_vert",
-                separator = ""),
-
-            NavMenu([
-                    OffsiteButton(_("Reddit for iPhone"),
-                        "https://itunes.apple.com/us/app/reddit-the-official-app/id1064216828?mt=8"),
-                    OffsiteButton(_("Reddit for Android"),
-                        "https://play.google.com/store/apps/details?id=com.reddit.frontpage"),
-                    OffsiteButton(_("mobile website"), "https://m.reddit.com"),
-                    NamedButton("buttons", False),
-                ],
-                title = _("apps & tools"),
-                type = "flat_vert",
-                separator = ""),
-
-            NavMenu([
-                    NamedButton("gold", False, dest="/gold/about", css_class="buygold"),
-                    OffsiteButton(_("redditgifts"), "//redditgifts.com"),
-                ],
-                title = _("<3"),
-                type = "flat_vert",
-                separator = "")
         ]
         CachedTemplate.__init__(self)
 
@@ -2236,7 +2195,7 @@ class SubredditsPage(Reddit):
                         *a, **kw)
         self.searchbar = SearchBar(
             prev_search = prev_search,
-            header=_('search subreddits by name'),
+            header=_('search communities by name'),
             search_params={},
             simple=True,
             subreddit_search=True,
@@ -2280,7 +2239,7 @@ class SubredditsPage(Reddit):
         subscribe_box = SubscriptionBox(srs,
                                         multi_text=strings.subscribed_multi)
         num_reddits = len(subscribe_box.srs)
-        ps.append(SideContentBox(_("your front page subreddits (%s)") %
+        ps.append(SideContentBox(_("your front page communities (%s)") %
                                  num_reddits, [subscribe_box]))
         return ps
 
@@ -2463,7 +2422,7 @@ class ProfileBar(Templated):
         self.show_users_gold_expiration = (self.show_private_info or
             user.pref_show_gold_expiration) and user.gold
         self.show_private_gold_info = (self.show_private_info and
-            (user.gold or user.gold_creddits > 0 or user.num_gildings > 0))
+           (user.gold or user.gold_creddits > 0 or user.num_gildings > 0))
 
         if self.show_users_gold_expiration:
             gold_days_left = (user.gold_expiration -
@@ -2835,7 +2794,7 @@ class SubredditTopBar(CachedTemplate):
                                            css_class = 'bottom-option',
                                            dest = '/subreddits/'))
         return SubredditMenu(drop_down_buttons,
-                             title = _('my subreddits'),
+                             title = _('my communities'),
                              type = 'srdrop')
 
     def subscribed_reddits(self):
@@ -2906,7 +2865,7 @@ class MultiInfoBar(Templated):
         self.description_md = multi.description_md
         self.srs = srs
         self.subreddit_selector = SubredditSelector(
-                placeholder=_("add subreddit"),
+                placeholder=_("add community"),
                 class_name="sr-name",
                 include_user_subscriptions=False,
                 show_add=True,
@@ -2953,7 +2912,7 @@ class SubscriptionBox(Templated):
                             Subreddit.gold_limit - Subreddit.sr_limit)
                 visible = min(len(srs), Subreddit.gold_limit)
                 bonus = {"bonus": extra}
-                self.goldmsg = _("%(bonus)s bonus subreddits") % bonus
+                self.goldmsg = _("%(bonus)s bonus communities") % bonus
                 self.prelink = ["/wiki/faq#wiki_how_many_subreddits_can_i_subscribe_to.3F",
                                 _("%s visible") % visible]
 
@@ -3016,7 +2975,7 @@ class CreateSubreddit(Templated):
                            )
         self.color_options = Subreddit.KEY_COLORS
         self.subreddit_selector = SubredditSelector(
-                placeholder=_("add subreddit"),
+                placeholder=_("add community"),
                 class_name="sr-name",
                 include_user_subscriptions=False,
                 show_add=True,
@@ -5543,13 +5502,13 @@ class ListingChooser(Templated):
             self.add_item("other", _("everything"),
                           path="/me/f/all",
                           extra_class="gold-perks",
-                          description=_("from all subreddits"))
+                          description=_("from all communities"))
         else:
             self.add_item("other", _("everything"), site=All,
-                          description=_("from all subreddits"))
+                          description=_("from all communities"))
         if c.user_is_loggedin and c.user.is_moderator_somewhere:
             self.add_item("other", _("moderating"), site=Mod,
-                          description=_("subreddits you mod"))
+                          description=_("communities you mod"))
 
         self.add_item("other", _("saved"), path='/user/%s/saved' % c.user.name)
 
@@ -5689,7 +5648,7 @@ class SubredditSelector(Templated):
 
         if include_user_subscriptions:
             self.subreddits.append((
-                _('your subscribed subreddits'),
+                _('your subscribed communities'),
                 Subreddit.user_subreddits(c.user, ids=False)
             ))
 
