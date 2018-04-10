@@ -171,7 +171,7 @@ function install_reddit_repo {
     popd
 }
 
-install_reddit_repo reddit/r2
+install_reddit_repo rbeer.trade/r2
 install_reddit_repo i18n
 for plugin in $REDDIT_AVAILABLE_PLUGINS; do
     copy_upstart $REDDIT_SRC/$plugin
