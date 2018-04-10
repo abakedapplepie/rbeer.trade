@@ -92,11 +92,11 @@ from r2.lib.automoderator import Ruleset
 import json
 
 page_descriptions = {
-    "config/stylesheet": _("This page is the subreddit stylesheet, changes here apply to the subreddit css"),
+    "config/stylesheet": _("This page is the community stylesheet, changes here apply to the subreddit css"),
     "config/submit_text": _("The contents of this page appear on the submit page"),
-    "config/sidebar": _("The contents of this page appear on the subreddit sidebar"),
-    "config/description": _("The contents of this page appear in the public subreddit description and when the user does not have access to the subreddit"),
-    "config/automoderator": _("This page is used to configure AutoModerator for the subreddit, please see [the full documentation](/wiki/automoderator/full-documentation) for information"),
+    "config/sidebar": _("The contents of this page appear on the community sidebar"),
+    "config/description": _("The contents of this page appear in the public community description and when the user does not have access to the community"),
+    "config/automoderator": _("This page is used to configure AutoModerator for the community, please see [the full documentation](/wiki/automoderator/full-documentation) for information"),
 }
 
 ATTRIBUTE_BY_PAGE = {"config/sidebar": "description",
@@ -220,7 +220,7 @@ class WikiController(RedditController):
             if error['reason'] == 'PAGE_NAME_LENGTH':
                 error_msg = _("this wiki cannot handle page names of that magnitude!  please select a page name shorter than %d characters") % error['max_length']
             elif error['reason'] == 'PAGE_CREATED_ELSEWHERE':
-                error_msg = _("this page is a special page, please go into the subreddit settings and save the field once to create this special page")
+                error_msg = _("this page is a special page, please go into the community settings and save the field once to create this special page")
             elif error['reason'] == 'PAGE_NAME_MAX_SEPARATORS':
                 error_msg = _('a max of %d separators "/" are allowed in a wiki page name.') % error['max_separators']
             return BoringPage(_("Wiki error"), infotext=error_msg).render()
