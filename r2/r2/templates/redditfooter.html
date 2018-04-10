@@ -44,19 +44,26 @@
   %endif
   <p class="bottommenu">
     ${text_with_links(
-            _("Use of this site constitutes acceptance of our "
-              "%(user_agreement)s and %(privacy_policy)s"),
+            _("Use of this site constitutes acceptance of our %(rules)s "
+              "%(user_agreement)s %(content_policy)s and %(privacy_policy)s"),
+            rules=dict(
+                link_text=_("Rules"),
+                path="/static/about/rules",
+            ),
             user_agreement=dict(
-                link_text=_("User Agreement {Genitive}"),
-                path="/help/useragreement",
+                link_text=_("User Agreement"),
+                path="/static/about/useragreement",
+            ),
+            content_policy=dict(
+                link_text=_("Content Policy"),
+                path="/static/about/contentpolicy",
             ),
             privacy_policy=dict(
-                link_text=_("Privacy Policy (updated)"),
-                path="/help/privacypolicy",
-                _class="updated",
+                link_text=_("Privacy Policy"),
+                path="/static/about/privacypolicy",
             ),
     )}.
-    &copy; ${_("%(year)d reddit inc. All rights reserved.") % \
+    &copy; ${_("%(year)d rbeer.trade. All rights reserved.") % \
     dict(year=datetime.datetime.now().timetuple()[0])}
   </p>
   <p class="bottommenu">REDDIT and the ALIEN Logo are registered trademarks of reddit inc.</p>
