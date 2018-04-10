@@ -219,16 +219,16 @@ min_membership_create_community = 0
 
 #### Accounts and Subreddits
 # the user used for "system" operations and private messages
-# system_user = spaz
-# admins = spaz, rbeertrade
+system_user = spaz
+admins = spaz
 # the default subreddit for submissions
-# default_sr = general
+default_sr = general
 # account used for default feedback messaging (can be /r/subreddit)
-# admin_message_acct = /r/Site_Issues
+admin_message_acct = /r/Site_Issues
 # subreddit used for trending subreddits postings. Ignored if blank.
-# trending_sr = beertrade, beer
+trending_sr = beertrade, beer
 # list of subreddits to always include in a user's front page (unless they unsubscribe)
-# automatic_reddits = Site_Issues, general
+automatic_reddits = Site_Issues, general
 # subreddits that have subscribers hidden
 hide_subscribers_srs = Site_Issues, general
 # subreddit to use for beta testing
@@ -283,7 +283,7 @@ port = 8001
 # write it to zookeeper, use the writer script: scripts/write_live_config.
 [live_config]
 # permissions! each user should have one of admin, sponsor, or employee as their permission level
-# employees = rbeertrade:admin, spaz:admin
+employees = spaz:admin
 # a message placed in the infobar
 announcement_message =
 # an info message placed in the sidebar
