@@ -2422,7 +2422,7 @@ class ProfileBar(Templated):
         self.show_users_gold_expiration = (self.show_private_info or
             user.pref_show_gold_expiration) and user.gold
         self.show_private_gold_info = (self.show_private_info and
-           (user.gold or user.gold_creddits > 0 or user.num_gildings > 0))
+            (user.gold or user.gold_creddits > 0 or user.num_gildings > 0))
 
         if self.show_users_gold_expiration:
             gold_days_left = (user.gold_expiration -
