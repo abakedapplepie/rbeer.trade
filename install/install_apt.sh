@@ -41,6 +41,7 @@ wget -qO- -L https://debian.datastax.com/debian/repo_key | \
 # add the reddit ppa for some custom packages
 apt-get install $APTITUDE_OPTIONS python-software-properties
 apt-add-repository -y ppa:reddit/ppa
+add-apt-repository -y ppa:certbot/certbot
 
 # pin the ppa -- packages present in the ppa will take precedence over
 # ones in other repositories (unless further pinning is done)
@@ -119,4 +120,6 @@ python-haigha
 python-redis
 python-pyramid
 python-raven
+
+python-certbot-nginx
 PACKAGES
