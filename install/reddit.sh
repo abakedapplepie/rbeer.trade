@@ -78,20 +78,6 @@ if [[ "2000000" -gt $(awk '/MemTotal/{print $2}' /proc/meminfo) ]]; then
     fi
 fi
 
-REDDIT_AVAILABLE_PLUGINS=""
-for plugin in $REDDIT_PLUGINS; do
-    if [ -d $REDDIT_SRC/$plugin ]; then
-        if [[ -z "$REDDIT_PLUGINS" ]]; then
-            REDDIT_AVAILABLE_PLUGINS+="$plugin"
-        else
-            REDDIT_AVAILABLE_PLUGINS+=" $plugin"
-        fi
-        echo "plugin $plugin found"
-    else
-        echo "plugin $plugin not found"
-    fi
-done
-
 ###############################################################################
 # Install prerequisites
 ###############################################################################
@@ -141,6 +127,23 @@ clone_reddit_repo reddit reddit/reddit
 clone_reddit_repo i18n reddit/reddit-i18n
 clone_reddit_service_repo websockets
 clone_reddit_service_repo activity
+clone_reddit_repo gold reddit/reddit-plugin-gold
+clone_reddit_repo about reddit/reddit-plugin-about
+
+
+REDDIT_AVAILABLE_PLUGINS=""
+for plugin in $REDDIT_PLUGINS; do
+    if [ -d $REDDIT_SRC/$plugin ]; then
+        if [[ -z "$REDDIT_PLUGINS" ]]; then
+            REDDIT_AVAILABLE_PLUGINS+="$plugin"
+        else
+            REDDIT_AVAILABLE_PLUGINS+=" $plugin"
+        fi
+        echo "plugin $plugin found"
+    else
+        echo "plugin $plugin not found"
+    fi
+done
 
 ###############################################################################
 # Configure Services
@@ -189,19 +192,13 @@ sudo -u $REDDIT_USER make clean pyx
 plugin_str=$(echo -n "$REDDIT_AVAILABLE_PLUGINS" | tr " " ,)
 if [ ! -f development.update ]; then
     cat > development.update <<DEVELOPMENT
-# after editing this file, run "make ini" to
-# generate a new development.ini
-
 [DEFAULT]
 # global debug flag -- displays pylons stacktrace rather than 500 page on error when true
 # WARNING: a pylons stacktrace allows remote code execution. Make sure this is false
 # if your server is publicly accessible.
-debug = true
 
-disable_ads = true
-disable_captcha = true
-disable_ratelimit = true
-disable_require_admin_otp = true
+debug = false
+short_description = oh god how did this get here i am not good with computer
 
 domain = $REDDIT_DOMAIN
 oauth_domain = $REDDIT_DOMAIN
@@ -212,8 +209,126 @@ media_provider = filesystem
 media_fs_root = /srv/www/media
 media_fs_base_url_http = http://%(domain)s/media/
 
+default_header_url = rbeer.trade.header.png
+https_endpoint = https://rbeer.trade
+payment_domain = https://pay.rbeer.trade/
+ad_domain = https://rbeer.trade
+min_membership_create_community = 0
+# s3_media_direct = false #??? default true
+
+
+#### Accounts and Subreddits
+# the user used for "system" operations and private messages
+# system_user = spaz
+# admins = spaz, rbeertrade
+# the default subreddit for submissions
+# default_sr = general
+# account used for default feedback messaging (can be /r/subreddit)
+# admin_message_acct = /r/Site_Issues
+# subreddit used for trending subreddits postings. Ignored if blank.
+# trending_sr = beertrade, beer
+# list of subreddits to always include in a user's front page (unless they unsubscribe)
+# automatic_reddits = Site_Issues, general
+# subreddits that have subscribers hidden
+hide_subscribers_srs = Site_Issues, general
+# subreddit to use for beta testing
+# beta_sr = beta
+# name of the promos subreddit.
+# promo_sr_name = promos
+#### Analytics
+# image to render to track pageviews
+tracker_url = /pixel/of_destiny.png
+# image to render to track HTTPS cert compatibility (needs to be protocol-relative)
+httpstracker_url = https://rbeer.trade/static/mailgray.png
+# url to request to track interaction statistics
+uitracker_url = /pixel/of_discovery.png
+# embeds pixel tracking url
+eventtracker_url = /pixel/of_delight.png
+anon_eventtracker_url = /pixel/of_diversity.png
+# google analytics token
+googleanalytics =
+# google analytics events sampling rate. Valid values are 1-100.
+# See https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration#_gat.GA_Tracker_._setSampleRate
+googleanalytics_sample_rate = 50
+# google analytics token for gold
+googleanalytics_gold =
+# google analytics events sampling rate for gold. Valid values are 1-100.
+googleanalytics_sample_rate_gold = 1
+# secret used for signing information on the above tracking pixels
+tracking_secret = 3gvo48y6nv9b34t9n8436bw2x3945b43nw7n
+# google tag manager container id
+googletagmanager =
+#### Wiki Pages
+wiki_page_content_policy = contentpolicy
+wiki_page_privacy_policy = privacypolicy
+wiki_page_user_agreement = useragreement
+wiki_page_registration_info = registration_info
+wiki_page_gold_bottlecaps = gold_bottlecaps
+wiki_page_stylesheets_everywhere =
+#### ads
+az_selfserve_priorities = 0
+az_selfserve_network_id = 0
+#### Feature toggles
+disable_ads = true
+disable_captcha = false
+disable_ratelimit = false
+disable_require_admin_otp = true
+disable_wiki = false
+
 [server:main]
 port = 8001
+
+# the following configuration section makes up the "live" config. if zookeeper
+# is enabled, then this configuration will be found by the app in zookeeper. to
+# write it to zookeeper, use the writer script: scripts/write_live_config.
+[live_config]
+# permissions! each user should have one of admin, sponsor, or employee as their permission level
+# employees = rbeertrade:admin, spaz:admin
+# a message placed in the infobar
+announcement_message =
+# an info message placed in the sidebar
+sidebar_message =
+# probability of the subreddit suggester showing up in the spotlight box
+# for users that have at some point edited their subscriptions:
+spotlight_interest_sub_p = 0
+# and for users that have not ever subscribed:
+spotlight_interest_nosub_p = 0
+# messages to display in the "you're new here" welcome bar
+# space-delimited list of strings with / to indicate newlines
+welcomebar_messages =
+# subreddit showcasing new multireddits
+listing_chooser_explore_sr =
+# subreddits that help people discover more subreddits (used in explore tab)
+discovery_srs =
+# historical cost to run a reddit server
+pennies_per_server_second = 1970/1/1:1
+# Controversial item determination
+# Criteria for an item to meet to be determined as controversial
+cflag_min_votes = 7
+cflag_lower_bound = 0.4
+cflag_upper_bound = 0.6
+# Karma requirements to disable captchas - must meet at least one
+captcha_exempt_link_karma = 1
+captcha_exempt_comment_karma = 1
+# Requirements to allow creating a subreddit - must meet age req + at least one karma req
+create_sr_account_age_days = 0
+create_sr_link_karma = 0
+create_sr_comment_karma = 0
+# Pages that are not yet supported by mobile web, and therefore should not
+# receive the switch-to-mobile banner
+mweb_blacklist_expressions = ^/prefs/?, ^/live/?, /message/, /wiki/?, /m/, ^/subreddits/create, /submit, ^/r/[^/]+/about/, ^/gold, ^/advertising, ^/promoted, ^/rules, ^/buttons
+ads_popularity_threshold = 0
+# Ads: determines probability to try to show ad for logged in user
+ad_probability = 0
+
+## HTTPS
+# Used to gradually redirect users to HTTPS (without HSTS or secure cookies)
+feature_https_redirect = on
+# Force the use of HTTPS (tell apps we want HTTPS connections only, use `Secure` cookies)
+# effectively means `https_redirect = on` as well.
+feature_force_https = on
+# Take existing cookies and make them HTTPS-only (requires `force_https`)
+feature_upgrade_cookies = on
 DEVELOPMENT
     chown $REDDIT_USER development.update
 else
@@ -360,8 +475,10 @@ server {
     listen 443;
 
     ssl on;
-    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+    ssl_certificate /etc/letsencrypt/live/www.rbeer.trade/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.rbeer.trade/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/www.rbeer.trade/fullchain.pem;
+    server_name rbeer.trade www.rbeer.trade;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
@@ -375,6 +492,9 @@ server {
         proxy_http_version 1.1;
         proxy_set_header X-Forwarded-For \$remote_addr;
         proxy_pass_header Server;
+        
+        #no idea if this is even doing anything
+        add_header Access-Control-Allow-Origin *;
 
         # allow websockets through if desired
         proxy_set_header Upgrade \$http_upgrade;
