@@ -247,7 +247,6 @@ function toggle(elem, callback, cancelback) {
         return false;
     }
 
-    /* r.analytics.breadcrumbs.storeLastClick(elem) */
     try {
         r.analytics.breadcrumbs.storeLastClick(elem)
     } catch (e) {
@@ -306,7 +305,11 @@ function subscribe(reddit_name) {
             }
             $.things(reddit_name).find(".entry").addClass("likes");
             $.request("subscribe", {sr: reddit_name, action: "sub"});
-            r.analytics.fireUITrackingPixel("sub", reddit_name, {"has_subd": r.config.has_subscribed})
+            try {
+                r.analytics.fireUITrackingPixel("sub", reddit_name, {"has_subd": r.config.has_subscribed})
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
 };
@@ -319,7 +322,11 @@ function unsubscribe(reddit_name) {
             }
             $.things(reddit_name).find(".entry").removeClass("likes");
             $.request("subscribe", {sr: reddit_name, action: "unsub"});
-            r.analytics.fireUITrackingPixel("unsub", reddit_name)
+            try {
+                r.analytics.fireUITrackingPixel("unsub", reddit_name)
+            } catch (e) {
+                console.log(e);
+            }
         }
     };
 };
@@ -583,7 +590,12 @@ function updateEventHandlers(thing) {
 };
 
 function last_click() {
-    var fullname = r.analytics.breadcrumbs.lastClickFullname()
+    try {
+        var fullname = r.analytics.breadcrumbs.lastClickFullname()
+    } catch (e) {
+        console.log(e)
+    }
+
     if (fullname && $('body').hasClass('listing-page')) {
         $('.last-clicked').removeClass('last-clicked')
         $('.id-' + fullname).last().addClass('last-clicked')
