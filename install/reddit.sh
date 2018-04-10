@@ -420,6 +420,15 @@ service gunicorn start
 # nginx
 ###############################################################################
 
+
+
+###############################################################################
+# Setup lets encrypt?!
+###############################################################################
+service haproxy stop
+certbot certonly --standalone -n --agree-tos -m rbeertrade@rbeer.trade -d www.$REDDIT_DOMAIN -d $REDDIT_DOMAIN
+
+
 mkdir -p /srv/www/media
 chown $REDDIT_USER:$REDDIT_GROUP /srv/www/media
 
@@ -725,13 +734,6 @@ for plugin in $REDDIT_AVAILABLE_PLUGINS; do
         $REDDIT_SRC/$plugin/setup.sh $REDDIT_SRC $REDDIT_USER
     fi
 done
-
-###############################################################################
-# Setup lets encrypt?!
-###############################################################################
-service haproxy stop
-certbot certonly --standalone -d www.$REDDIT_DOMAIN -d $REDDIT_DOMAIN
-service haproxy start
 
 ###############################################################################
 # Start everything up
