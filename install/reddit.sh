@@ -727,6 +727,13 @@ for plugin in $REDDIT_AVAILABLE_PLUGINS; do
 done
 
 ###############################################################################
+# Setup lets encrypt?!
+###############################################################################
+service haproxy stop
+certbot certonly --standalone -d www.$REDDIT_DOMAIN -d $REDDIT_DOMAIN
+service haproxy start
+
+###############################################################################
 # Start everything up
 ###############################################################################
 
@@ -750,6 +757,9 @@ if [ ! -f /etc/cron.d/reddit ]; then
 */2  * * * * root /sbin/start --quiet reddit-job-broken_things
 */2  * * * * root /sbin/start --quiet reddit-job-rising
 0    * * * * root /sbin/start --quiet reddit-job-trylater
+
+#letsencrypt
+0    5 * * * root certbot renew --quiet --pre-hook "service haproxy stop" --post-hook "service haproxy start;service nginx restart"
 
 # liveupdate
 *    * * * * root /sbin/start --quiet reddit-job-liveupdate_activity
