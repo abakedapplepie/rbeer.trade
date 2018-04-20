@@ -264,7 +264,11 @@ r.ui.ReadNext = Backbone.View.extend({
         this.state.set({
             index: this.moduloIndex(currentIndex + 1),
         });
-        r.analytics.fireGAEvent('readnext', 'nav-next');
+        try {
+            r.analytics.fireGAEvent('readnext', 'nav-next');
+        } catch (err) {
+            r.sendError('lol blocked ', err.toString());
+        }
     },
 
     prev: function() {
@@ -273,13 +277,21 @@ r.ui.ReadNext = Backbone.View.extend({
         this.state.set({
             index: this.moduloIndex(currentIndex - 1),
         });
-        r.analytics.fireGAEvent('readnext', 'nav-prev');
+        try {
+            r.analytics.fireGAEvent('readnext', 'nav-prev');
+        } catch (err) {
+            r.sendError('lol blocked ', err.toString());
+        }
     },
 
     dismiss: function() {
         this.$el.fadeOut();
         window.removeEventListener('scroll', this.updateScroll);
-        r.analytics.fireGAEvent('readnext', 'dismiss');
+        try {
+            r.analytics.fireGAEvent('readnext', 'dismiss');
+        } catch (err) {
+            r.sendError('lol blocked ', err.toString());
+        }
         store.safeSet('readnext.dismissed', true);
         var expiration = Date.now() + this.options.ttl;
         store.safeSet('readnext.expiration', expiration);
