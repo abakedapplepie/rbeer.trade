@@ -178,7 +178,11 @@ r.login.ui = {
         targetFullname = r.config.cur_link;
       }
 
-      r.analytics.loginRequiredEvent(actionName, actionDetail, targetType, targetFullname);
+      try {
+        r.analytics.loginRequiredEvent(actionName, actionDetail, targetType, targetFullname);
+      } catch (err) {
+        r.sendError('lol blocked ', err.toString());
+      }
     },
 
     loginRequiredAction: function(e) {
@@ -206,7 +210,11 @@ r.login.ui = {
             }, this))
 
             this._logEvent(e);
-            r.analytics.fireGAEvent('login-required-popup', 'opened', actionDetails.eventName);
+            try {
+                r.analytics.fireGAEvent('login-required-popup', 'opened', actionDetails.eventName);
+            } catch (err) {
+                r.sendError('lol blocked ', err.toString());
+            }
 
             return false
         }
@@ -243,7 +251,11 @@ r.ui.LoginForm.prototype = $.extend(new r.ui.Form(), {
     },
 
     _submit: function() {
-        r.analytics.fireGAEvent('login-form', 'submit');
+        try {
+            r.analytics.fireGAEvent('login-form', 'submit');
+        } catch (err) {
+            r.sendError('lol blocked ', err.toString());
+        }
         return r.login.post(this, 'login')
     },
 
@@ -397,7 +409,11 @@ r.ui.RegisterForm.prototype = $.extend(new r.ui.Form(), {
     },
 
     _submit: function() {
-        r.analytics.fireGAEvent('register-form', 'submit');
+        try {
+            r.analytics.fireGAEvent('register-form', 'submit');
+        } catch (err) {
+            r.sendError('lol blocked ', err.toString());
+        }
         return r.login.post(this, 'register')
     },
 
