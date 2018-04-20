@@ -55,8 +55,11 @@
       } else if (!targetFullname && targetType == 'link') {
         targetFullname = r.config.cur_link;
       }
-
-      r.analytics.timeoutForbiddenEvent(actionName, actionDetail, targetType, targetFullname);
+      try {
+        r.analytics.timeoutForbiddenEvent(actionName, actionDetail, targetType, targetFullname);
+      } catch (err) {
+        r.sendError('lol blocked ', err.toString());
+      }
     },
 
     _handleClick: function onClick(e) {
