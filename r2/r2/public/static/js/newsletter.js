@@ -43,7 +43,11 @@ r.newsletter.ui = {
       e.preventDefault();
       $(this).toggleClass('active');
       $('.faq').slideToggle();
-      r.analytics.fireGAEvent('newsletter-form', 'faq-toggle');
+      try {
+        r.analytics.fireGAEvent('newsletter-form', 'faq-toggle');
+      } catch (err) {
+        r.sendError('lol blocked ', err.toString());
+      }
     });
   },
 
@@ -69,7 +73,11 @@ r.newsletter.ui.NewsletterForm.prototype = $.extend(new r.ui.Form(), {
   },
   
   _submit: function() {
-    r.analytics.fireGAEvent('newsletter-form', 'submit');
+    try {
+      r.analytics.fireGAEvent('newsletter-form', 'submit');
+    } catch (err) {
+      r.sendError('lol blocked ', err.toString());
+    }
     return r.newsletter.post(this);
   },
 
