@@ -179,9 +179,17 @@
     fireExpandEvent: function() {
       if (this.autoexpanded) {
         this.autoexpanded = false;
-        r.analytics.expandoEvent('expand_default', this._expandoEventData);
+        try {
+          r.analytics.expandoEvent('expand_default', this._expandoEventData);
+        } catch (err) {
+          r.sendError('lol blocked ', err.toString());
+        }
       } else {
-        r.analytics.expandoEvent('expand_user', this._expandoEventData);
+        try {
+          r.analytics.expandoEvent('expand_user', this._expandoEventData);
+        } catch (err) {
+          r.sendError('lol blocked ', err.toString());
+        }
       }
     },
 
@@ -200,7 +208,11 @@
     },
 
     fireCollapseEvent: function() {
-      r.analytics.expandoEvent('collapse_user', this._expandoEventData);
+      try {
+        r.analytics.expandoEvent('collapse_user', this._expandoEventData);
+      } catch (err) {
+        r.sendError('lol blocked ', err.toString());
+      }
     },
   });
 
