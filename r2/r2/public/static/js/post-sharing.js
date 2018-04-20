@@ -490,7 +490,11 @@
       r.ui.activeShareMenu = postSharing;
 
       postSharing.on('show', function() {
-        r.analytics.fireGAEvent('post-sharing', 'open', thingId);
+        try {
+           r.analytics.fireGAEvent('post-sharing', 'open', thingId);
+        } catch (err) {
+          r.sendError('lol blocked ', err.toString());
+        }
       });
 
       postSharing.on('unmount', function() {
@@ -501,15 +505,27 @@
 
       postSharing.on('close', function() {
         var eventName = postSharing.state.get('selectedOption') ? 'close' : 'cancel';
-        r.analytics.fireGAEvent('post-sharing', eventName, thingId);
+        try {
+          r.analytics.fireGAEvent('post-sharing', eventName, thingId);
+        } catch (err) {
+          r.sendError('lol blocked ', err.toString());
+        }
       });
 
       postSharing.on('web-intent', function(refSource) {
-        r.analytics.fireGAEvent('post-sharing', 'share-to-' + refSource, thingId);
+        try {
+          r.analytics.fireGAEvent('post-sharing', 'share-to-' + refSource, thingId);
+        } catch (err) {
+          r.sendError('lol blocked ', err.toString());
+        }
       });
 
       postSharing.on('link', function(action) {
-        r.analytics.fireGAEvent('post-sharing', 'link-' + action, thingId);
+        try {
+          r.analytics.fireGAEvent('post-sharing', 'link-' + action, thingId);
+        } catch (err) {
+          r.sendError('lol blocked ', err.toString());
+        }
       });
 
       postSharing.show();
