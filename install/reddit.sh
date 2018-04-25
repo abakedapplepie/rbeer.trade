@@ -496,7 +496,7 @@ server {
     ssl_session_cache shared:SSL:1m;
 
     location / {
-        proxy_pass http://127.0.0.1:8080;
+        proxy_pass http://127.0.0.1:8843;
         proxy_set_header Host \$http_host;
         proxy_http_version 1.1;
         proxy_set_header X-Forwarded-For \$remote_addr;
@@ -550,7 +550,7 @@ frontend frontend
     mode http
 
     bind 0.0.0.0:80
-    bind 127.0.0.1:8080
+    bind 127.0.0.1:8843
 
     timeout client 24h
     option forwardfor except 127.0.0.1
@@ -558,7 +558,7 @@ frontend frontend
 
     # make sure that requests have x-forwarded-proto: https iff tls
     reqidel ^X-Forwarded-Proto:.*
-    acl is-ssl dst_port 8080
+    acl is-ssl dst_port 8843
     reqadd X-Forwarded-Proto:\ https if is-ssl
 
     # send websockets to the websocket service
